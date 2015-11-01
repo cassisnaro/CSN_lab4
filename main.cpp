@@ -2,85 +2,47 @@
 // Created by daniel on 29/10/15.
 //
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include <locale>
-#include <map>
-#include <sstream>
+#include "MatrixLanguage.h"
+
 
 using namespace std;
 
-string print_table_1_row(string language, unsigned long N, unsigned long E);
-long convert_2d_index(unsigned long i, unsigned long j, unsigned long N);
-
 int main(int argc, char **argv){
-    unsigned long N;
-    unsigned long num_edges;
 
-    std::locale::global(std::locale(""));
-    std::wifstream wf("./data/Arabic_syntactic_dependency_network.txt"); // test.txt contains utf-8 text
-    wstring readed_string_1, readed_string_2;
+    std::vector<MatrixLanguage> matrices;
+    MatrixLanguage arabicMatrix("Arabic","./data/Arabic_syntactic_dependency_network.txt");
+    matrices.push_back(arabicMatrix);
+    MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
+    matrices.push_back(basqueMatrix);
+    MatrixLanguage catalanMatrix("Catalan","./data/Catalan_syntactic_dependency_network.txt");
+    matrices.push_back(catalanMatrix);
+    MatrixLanguage chineseMatrix("Chinese","./data/Chinese_syntactic_dependency_network.txt");
+    matrices.push_back(chineseMatrix);
+    MatrixLanguage czechMatrix("Czech","./data/Czech_syntactic_dependency_network.txt");
+    matrices.push_back(czechMatrix);
+    MatrixLanguage englishMatrix("English","./data/English_syntactic_dependency_network.txt");
+    matrices.push_back(englishMatrix);
+    MatrixLanguage greekMatrix("Greek","./data/Greek_syntactic_dependency_network.txt");
+    matrices.push_back(greekMatrix);
+    MatrixLanguage hungarianMatrix("Hungarian","./data/Hungarian_syntactic_dependency_network.txt");
+    matrices.push_back(hungarianMatrix);
+    MatrixLanguage italianMatrix("Italian","./data/Italian_syntactic_dependency_network.txt");
+    matrices.push_back(italianMatrix);
+    MatrixLanguage turkishMatrix("Turkish","./data/Turkish_syntactic_dependency_network.txt");
+    matrices.push_back(turkishMatrix);
 
-    wf >> N >> num_edges;
 
-    unsigned long size = (N-1)*N/2;
-    vector<bool> matrix;
-    cerr << "size:"<<size<<endl;
-    matrix.resize(size, false);
-
-
-    unsigned long count=0;
-    map<wstring, int> conversion_map;
-    for(int i=0; i<num_edges; i++ ){
-        wf >> readed_string_1 >> readed_string_2;
-        unsigned long id1, id2;
-        auto conversion_map_it_1 = conversion_map.find(readed_string_1);
-        if (conversion_map_it_1==conversion_map.end()){
-            conversion_map.insert(std::pair<wstring,int>(readed_string_1, count));
-            id1 = count;
-            count++;
-        } else {
-            id1 = conversion_map_it_1->second;
-        }
-
-        auto conversion_map_it_2 = conversion_map.find(readed_string_2);
-        if (conversion_map_it_2==conversion_map.end()){
-            conversion_map.insert(std::pair<wstring,int>(readed_string_2, count));
-            id2 = count;
-            count++;
-        } else {
-            id2 = conversion_map_it_2->second;
-        }
-        if (id1 != id2){
-            long index_lineal = convert_2d_index(id1, id2, N);
-            matrix[index_lineal] = true;
-        }
+    //Printing table 1
+    for(auto it=matrices.begin(); it!=matrices.end(); it++){
+        cerr << it->print_table_1_row();
     }
-    wcout << readed_string_1 << " " << readed_string_2 << endl;
-    wcout << count << endl;
 
-    print_table_1_row("arabic", N, num_edges);
 
-    /*cin >> N >> num_edges;
-    for (int i=0; i<num_edges; i++){
 
-    }*/
 
     return 0;
 }
 
-string print_table_1_row(string language, unsigned long N, unsigned long E){
-    stringstream returnStringStream;
-    returnStringStream << language<< "& "<<N<<"& "<<E<<"& "<<E/(double)N<<"& "<<2*(double)E/(N*(N+1));
-    return returnStringStream.str();
-}
 
-long convert_2d_index(unsigned long i, unsigned long j, unsigned long N){
-    if(i > j){
-        unsigned long tmp = i;
-        i = j;
-        j = tmp;
-    }
-    long index_complete_matrix_1D = i*N - i*(i+1)/2 + j-(i+1);
-    return index_complete_matrix_1D;
-}
+
