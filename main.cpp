@@ -2,7 +2,6 @@
 // Created by daniel on 29/10/15.
 //
 #include <iostream>
-#include <vector>
 #include "MatrixLanguage.h"
 
 
@@ -10,7 +9,8 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-    std::vector<MatrixLanguage> matrices;
+    srand(1234);
+    /*std::vector<MatrixLanguage> matrices;
     MatrixLanguage arabicMatrix("Arabic","./data/Arabic_syntactic_dependency_network.txt");
     matrices.push_back(arabicMatrix);
     MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
@@ -34,14 +34,13 @@ int main(int argc, char **argv){
     MatrixLanguage italianMatrix("Italian","./data/Italian_syntactic_dependency_network.txt");
     matrices.push_back(italianMatrix);
     MatrixLanguage turkishMatrix("Turkish","./data/Turkish_syntactic_dependency_network.txt");
-    matrices.push_back(turkishMatrix);
+    matrices.push_back(turkishMatrix);*/
 
 
-    //Printing table 1
-    for(auto it=matrices.begin(); it!=matrices.end(); it++){
-        cerr << it->print_table_1_row();
-    }
 
+
+    unsigned long Graphsize = 2048*2048;
+    Matrix::ErdosRenyi(Graphsize,0.5,4);
 
 
 

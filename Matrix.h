@@ -34,11 +34,15 @@ public:
 private:
     unsigned long N;
     unsigned long num_edges;
+
+private:
     std::vector<bool> matrix;
 public:
     long convert_2d_index(unsigned long i, unsigned long j);
     void resize(unsigned long size, bool value);
     std::_Bit_reference operator [](const int nIndex);
+    void ErdosRenyiAuxFunction(unsigned long first_index, unsigned long next_first_index, double prob);
+    static Matrix ErdosRenyi(unsigned long size, double p, int num_threads=1);
 };
 
 
