@@ -19,8 +19,12 @@ int main(int argc, char **argv){
     matrices.push_back(catalanMatrix);
     MatrixLanguage chineseMatrix("Chinese","./data/Chinese_syntactic_dependency_network.txt");
     matrices.push_back(chineseMatrix);
-    MatrixLanguage czechMatrix("Czech","./data/Czech_syntactic_dependency_network.txt");
-    matrices.push_back(czechMatrix);
+    try {
+        MatrixLanguage czechMatrix("Czech", "./data/Czech_syntactic_dependency_network.txt");
+        matrices.push_back(czechMatrix);
+    } catch (const std::length_error& le) {
+        std::cerr << "Length error: " << le.what() << '\n';
+    }
     MatrixLanguage englishMatrix("English","./data/English_syntactic_dependency_network.txt");
     matrices.push_back(englishMatrix);
     MatrixLanguage greekMatrix("Greek","./data/Greek_syntactic_dependency_network.txt");

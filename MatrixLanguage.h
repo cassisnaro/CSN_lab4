@@ -12,15 +12,13 @@
 #include <locale>
 #include <map>
 #include <sstream>
+#include "Matrix.h"
 
 class MatrixLanguage {
     private:
         std::string _language;
-        unsigned long N;
-        unsigned long num_edges;
-        unsigned long size;
-        std::vector<bool> matrix;
-        std::map<std::wstring, int> conversion_map;
+        Matrix matrix;
+        std::map<std::wstring, unsigned long > conversion_map;
         long convert_2d_index(unsigned long i, unsigned long j);
 
     public:
