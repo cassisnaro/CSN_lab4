@@ -34,6 +34,7 @@ public:
 private:
     unsigned long N;
     unsigned long num_edges;
+    unsigned long* dist_matrix = nullptr;
 
 private:
     std::vector<bool> matrix;
@@ -44,6 +45,11 @@ public:
     void ErdosRenyiAuxFunction(unsigned long first_index, unsigned long next_first_index, double prob);
     static Matrix ErdosRenyi(unsigned long size, double p, int num_threads=1);
     Matrix randomizeEdges();
+    void setExample();
+    void writeToCerr();
+    void writeDistancesToCerr();
+    void computeDistances();
+    ~Matrix();
 };
 
 
