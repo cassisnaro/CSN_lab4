@@ -3,6 +3,7 @@
 //
 
 #include <thread>
+#include <random>
 #include "Matrix.h"
 
 long Matrix::convert_2d_index(unsigned long i, unsigned long j){
@@ -53,4 +54,36 @@ Matrix Matrix::ErdosRenyi(unsigned long size, double p, int numthreads){
         t[i].join();
     }
     return matrix;
+}
+
+Matrix Matrix::randomizeEdges() {
+    //Needs to be moved
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(0,N-1);
+
+    Matrix newMatrix = *this;
+
+    int steps=100;
+    for(int i=0; i<steps; i++){
+        int edge1node1 = uni(rng);
+        int edge1node2 = uni(rng);
+        int edge2node1 = uni(rng);
+        int edge2node2 = uni(rng);
+
+        //Checking for cases leading to loops
+        if((edge1node1==edge2node1)||(edge1node1==edge2node2)||(edge1node2==edge2node1)||(edge1node2==edge2node2)){
+
+        }else{
+            //Checking that both edges exist indeed
+            if(newMatrix[convert_2d_index(edge1node1,edge1node2)] && newMatrix[convert_2d_index(edge1node1,edge1node2)]) {
+                newMatrix[convert_2d_index(edge1node1, edge1node2)] = false;
+                newMatrix[convert_2d_index(edge2node1, edge2node2)] = false;
+                newMatrix[convert_2d_index(edge1node1, edge2node2)] = true;
+                newMatrix[convert_2d_index(edge2node1, edge1node2)] = true;
+            }
+        }
+    }
+    return newMatrix;
+
 }

@@ -43,6 +43,7 @@ public:
     std::_Bit_reference operator [](const int nIndex);
     void ErdosRenyiAuxFunction(unsigned long first_index, unsigned long next_first_index, double prob);
     static Matrix ErdosRenyi(unsigned long size, double p, int num_threads=1);
+    Matrix randomizeEdges();
 };
 
 
