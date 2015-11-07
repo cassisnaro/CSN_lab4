@@ -41,8 +41,10 @@ int main(int argc, char **argv){
 
     /*unsigned long Graphsize = 2048*2048;
     Matrix::ErdosRenyi(Graphsize,0.5,4);*/
-    Matrix matrix;
+    MatrixAdjacency matrix(5);
+    cerr<<"about to set example\n";
     matrix.setExample();
+    cerr<<"example setted\n";
     matrix.writeToCerr();
     cerr<<"\n";
     //matrix.randomizeEdges();

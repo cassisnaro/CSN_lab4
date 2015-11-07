@@ -13,11 +13,12 @@
 #include <map>
 #include <sstream>
 #include "Matrix.h"
+#include "MatrixAdjacency.h"
 
 class MatrixLanguage {
     private:
         std::string _language;
-        Matrix matrix;
+        MatrixAdjacency* matrix;
         std::map<std::wstring, unsigned long > conversion_map;
         long convert_2d_index(unsigned long i, unsigned long j);
 
