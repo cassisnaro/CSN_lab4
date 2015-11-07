@@ -54,6 +54,7 @@ public:
     void writeToCerr();
     void writeDistancesToCerr();
     void computeDistances();
+    unsigned long bfs_distance(ID_TYPE start, ID_TYPE goal);
     ~MatrixAdjacency();
 };
 

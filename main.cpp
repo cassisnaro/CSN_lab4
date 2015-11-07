@@ -34,7 +34,7 @@ int main(int argc, char **argv){
     MatrixLanguage italianMatrix("Italian","./data/Italian_syntactic_dependency_network.txt");
     matrices.push_back(italianMatrix);
     MatrixLanguage turkishMatrix("Turkish","./data/Turkish_syntactic_dependency_network.txt");
-    matrices.push_back(turkishMatrix);*/
+    matrices.push_back(turkishMatrix);
 
 
 
@@ -44,17 +44,20 @@ int main(int argc, char **argv){
     matrix.writeToCerr();
     cerr<<"\n";
     MatrixAdjacency newMatrix=matrix.randomizeEdges();
-    newMatrix.writeToCerr();
-    /*MatrixAdjacency matrix(5);
-    cerr<<"about to set example\n";
+    newMatrix.writeToCerr();*/
+    MatrixAdjacency matrix(5);
     matrix.setExample();
-    cerr<<"example setted\n";
     matrix.writeToCerr();
-    cerr<<"\n";
+    std::cerr<<"\n";
+    std::cerr<<"distance 0 to 0 "<<matrix.bfs_distance(0,0)<<std::endl;
+    std::cerr<<"distance 0 to 1 "<<matrix.bfs_distance(0,1)<<std::endl;
+    std::cerr<<"distance 0 to 2 "<<matrix.bfs_distance(0,2)<<std::endl;
+    std::cerr<<"distance 0 to 3 "<<matrix.bfs_distance(0,3)<<std::endl;
+    std::cerr<<"distance 0 to 4 "<<matrix.bfs_distance(0,4)<<std::endl;
     //matrix.randomizeEdges();
 
-    matrix.computeDistances();
-    matrix.writeDistancesToCerr();*/
+    //matrix.computeDistances();
+    //matrix.writeDistancesToCerr();
 
 
 

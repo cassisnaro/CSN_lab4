@@ -179,3 +179,28 @@ MatrixAdjacency MatrixAdjacency::randomizeEdges() {
     return newMatrix;
 
 }
+
+unsigned long MatrixAdjacency::bfs_distance(ID_TYPE start, ID_TYPE goal){
+    std::unordered_set<ID_TYPE> openSet, closedSet;
+    openSet.insert(start);
+    unsigned long distance = 0;
+    bool found=false;
+    while(!openSet.empty() && !found){
+        std::unordered_set<ID_TYPE> nodes_to_open;
+        for(const ID_TYPE &id:openSet){
+            if (id==goal){
+                found=true;
+                break;
+            }else{
+                if(closedSet.find(id)==closedSet.end()){
+                    nodes_to_open.insert(matrix[id].begin(), matrix[id].end());
+                }
+                closedSet.insert(id);
+            }
+        }
+        openSet.clear();
+        openSet.insert(nodes_to_open.begin(),nodes_to_open.end());
+        distance++;
+    }
+    return found ? distance-1 : INTMAX_MAX;
+}
