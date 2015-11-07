@@ -36,7 +36,7 @@ public:
     }
     MatrixAdjacency(ID_TYPE num_nodes);
     bool getIsEdge(ID_TYPE i, ID_TYPE j);
-    void setIsEdge(ID_TYPE i, ID_TYPE j);
+    void setIsEdge(ID_TYPE i, ID_TYPE j,bool isEdge);
 
 private:
     ID_TYPE N;
@@ -48,7 +48,7 @@ private:
     std::unordered_set<ID_TYPE>& operator [](const int nIndex);
 public:
     void ErdosRenyiAuxFunction(ID_TYPE first_index, ID_TYPE next_first_index, double prob);
-    static MatrixAdjacency ErdosRenyi(ID_TYPE size, double p, int num_threads=1);
+    static MatrixAdjacency ErdosRenyi(ID_TYPE num_edges, double p, int num_threads=1);
     MatrixAdjacency randomizeEdges();
     void setExample();
     void writeToCerr();

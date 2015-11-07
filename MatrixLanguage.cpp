@@ -47,7 +47,7 @@ MatrixLanguage::MatrixLanguage(std::string language, std::string file_path){
             id2 = conversion_map_it_2->second;
         }
         if (id1 != id2){
-            matrix->setIsEdge(id1, id2);
+            matrix->setIsEdge(id1, id2, true);
         }
     }
     std::cerr << "just here before table \n";
