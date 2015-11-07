@@ -40,8 +40,11 @@ int main(int argc, char **argv){
 
 
     unsigned long Graphsize = 2048*2048;
-    MatrixAdjacency matrix=MatrixAdjacency::ErdosRenyi(16,1,4);
+    MatrixAdjacency matrix=MatrixAdjacency::ErdosRenyi(16,0.5,4);
     matrix.writeToCerr();
+    cerr<<"\n";
+    MatrixAdjacency newMatrix=matrix.randomizeEdges();
+    newMatrix.writeToCerr();
     /*MatrixAdjacency matrix(5);
     cerr<<"about to set example\n";
     matrix.setExample();

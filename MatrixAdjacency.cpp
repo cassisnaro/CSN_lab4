@@ -53,21 +53,28 @@ void MatrixAdjacency::setExample() {
 }
 
 void MatrixAdjacency::writeToCerr() {
+    std::cerr<<"[";
     for(int i=0;i<N;i++){
+        std::cerr<<"[";
         for(int j=0; j<N; j++){
-            if (i==j) std::cerr << false << " ";
-            else std::cerr << getIsEdge(i,j) << " ";
+            std::cerr <<getIsEdge(i,j);
+            if(j!=N-1) std::cerr << ", ";
         }
-        std::cerr << std::endl;
+        std::cerr << "]";
+        if(i!=N-1) std::cerr << ";";
     }
+    std::cerr<"]";
 }
 
 void MatrixAdjacency::writeDistancesToCerr() {
+    std::cerr<<"[";
     for(int i=0;i<N;i++){
+        std::cerr<<"[";
         for(int j=0; j<N; j++){
-            std::cerr << dist_matrix[i*N+j] << " ";
+            std::cerr << dist_matrix[i*N+j] << ", ";
         }
-        std::cerr << std::endl;
+        std::cerr << "]";
+        if(i!=N-1) std::cerr << ";";
     }
 }
 
@@ -120,7 +127,6 @@ MatrixAdjacency MatrixAdjacency::ErdosRenyi(ID_TYPE num_vertices, double p, int 
     unsigned long first_index_thread[16];
     for( int i=0; i<numthreads-1; i++){
         first_index_thread[i]=(unsigned long)i*num_vertices/(unsigned long)numthreads;
-        std::cerr<<"thread "<<i<<": "<<first_index_thread[i]<<"\n";
     }
     first_index_thread[numthreads-1]=(numthreads-1)*(num_vertices/numthreads);
     for( int i=0; i<numthreads-1; i++){
@@ -148,7 +154,7 @@ MatrixAdjacency MatrixAdjacency::randomizeEdges() {
         int edge2node1 = uni(rng);
         int edge2node2 = uni(rng);
 
-        std::cerr <<edge1node1<<"-"<<edge1node2<<";"<<edge2node1<<"-"<<edge2node2<<std::endl;
+        //std::cerr <<edge1node1<<"-"<<edge1node2<<";"<<edge2node1<<"-"<<edge2node2<<std::endl;
 
         //We do not want to have selected randomly selected loop edges
         if ((edge1node1!=edge1node2) && (edge2node1!=edge2node2)) {
@@ -157,19 +163,18 @@ MatrixAdjacency MatrixAdjacency::randomizeEdges() {
 
             } else {
                 //Checking that both edges exist indeed
+                if (newMatrix.getIsEdge(edge1node1, edge1node2) &&
+                    newMatrix.getIsEdge(edge2node1, edge2node2)
+                    && !newMatrix.getIsEdge(edge1node1, edge2node2) &&
+                    !newMatrix.getIsEdge(edge2node1, edge1node2)) {
+                    newMatrix.setIsEdge(edge1node1, edge1node2, false);
+                    newMatrix.setIsEdge(edge2node1, edge2node2, false);
+                    newMatrix.setIsEdge(edge1node1, edge2node2, true);
+                    newMatrix.setIsEdge(edge2node1, edge1node2, true);
+                }
             }
         }
-        if (newMatrix.getIsEdge(edge1node1, edge1node2) &&
-                newMatrix.getIsEdge(edge2node1, edge2node2)
-            && !newMatrix.getIsEdge(edge1node1, edge2node2) &&
-            !newMatrix.getIsEdge(edge2node1, edge1node2)) {
-            newMatrix.setIsEdge(edge1node1, edge1node2,false);
-            newMatrix.setIsEdge(edge2node1, edge2node2,false);
-            newMatrix.setIsEdge(edge1node1, edge2node2, true);
-            newMatrix.setIsEdge(edge2node1, edge1node2, true);
-        }
         std::cerr << std::endl;
-        newMatrix.writeToCerr();
     }
     return newMatrix;
 
