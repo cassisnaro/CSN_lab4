@@ -56,6 +56,8 @@ public:
     void computeDistances();
     unsigned long bfs_distance(ID_TYPE start, ID_TYPE goal);
     ~MatrixAdjacency();
+    double closeness_vertex(ID_TYPE);
+
 };
 
 #endif //CSN_LAB4_MATRIXADJACENCY_H

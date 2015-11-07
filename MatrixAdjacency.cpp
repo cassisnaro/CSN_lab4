@@ -204,3 +204,13 @@ unsigned long MatrixAdjacency::bfs_distance(ID_TYPE start, ID_TYPE goal){
     }
     return found ? distance-1 : INTMAX_MAX;
 }
+
+double MatrixAdjacency::closeness_vertex(ID_TYPE measure_node){
+    double result=0;
+    for(ID_TYPE id_node=0; id_node<N; id_node++){
+        if(id_node!=measure_node) {
+            result += 1 / bfs_distance(measure_node, id_node);
+        }
+    }
+    return 1/(N-1)*result;
+}
