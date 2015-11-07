@@ -57,6 +57,7 @@ public:
     unsigned long bfs_distance(ID_TYPE start, ID_TYPE goal);
     ~MatrixAdjacency();
     double closeness_vertex(ID_TYPE);
+    double closeness_vertex_optimization(ID_TYPE, int max_depth);
 
 };
 

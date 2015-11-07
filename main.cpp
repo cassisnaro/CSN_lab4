@@ -54,6 +54,14 @@ int main(int argc, char **argv){
     std::cerr<<"distance 0 to 2 "<<matrix.bfs_distance(0,2)<<std::endl;
     std::cerr<<"distance 0 to 3 "<<matrix.bfs_distance(0,3)<<std::endl;
     std::cerr<<"distance 0 to 4 "<<matrix.bfs_distance(0,4)<<std::endl;
+
+
+    std::cerr<<"closeness node 0:"<<matrix.closeness_vertex(0)<<std::endl;
+    std::cerr<<"closeness node 0 opt.:"<<matrix.closeness_vertex_optimization(0,10)<<std::endl;
+    std::cerr<<"closeness node 1:"<<matrix.closeness_vertex(1)<<std::endl;
+    std::cerr<<"closeness node 1 opt.:"<<matrix.closeness_vertex_optimization(1,10)<<std::endl;
+    std::cerr<<"closeness node 2:"<<matrix.closeness_vertex(2)<<std::endl;
+    std::cerr<<"closeness node 2 opt.:"<<matrix.closeness_vertex_optimization(2,10)<<std::endl;
     //matrix.randomizeEdges();
 
     //matrix.computeDistances();

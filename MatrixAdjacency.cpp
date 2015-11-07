@@ -209,8 +209,28 @@ double MatrixAdjacency::closeness_vertex(ID_TYPE measure_node){
     double result=0;
     for(ID_TYPE id_node=0; id_node<N; id_node++){
         if(id_node!=measure_node) {
-            result += 1 / bfs_distance(measure_node, id_node);
+            result += 1 / (double)bfs_distance(measure_node, id_node);
         }
     }
-    return 1/(N-1)*result;
+    return 1/(double)(N-1)*result;
+}
+
+double MatrixAdjacency::closeness_vertex_optimization(ID_TYPE measure_node, int max_depth){
+    std::unordered_set<ID_TYPE> closed_nodes;
+    std::unordered_set<ID_TYPE> nodes_at_previous_distance;
+    nodes_at_previous_distance.insert(measure_node);
+    double result=0;
+    for(int i=0; i<max_depth;i++){
+        std::unordered_set<ID_TYPE> nodes_at_next_distance;
+        for(ID_TYPE node: nodes_at_previous_distance){
+            if ( closed_nodes.find(node) == closed_nodes.end()){
+                nodes_at_next_distance.insert(matrix[node].begin(),matrix[node].end());
+                if(i!=0) result+=1/(double)i;
+            }
+        }
+        closed_nodes.insert(nodes_at_previous_distance.begin(),nodes_at_previous_distance.end());
+        nodes_at_previous_distance.clear();
+        nodes_at_previous_distance.insert(nodes_at_next_distance.begin(), nodes_at_next_distance.end());
+    }
+    return 1/(double)(N-1)*result;
 }
