@@ -25,6 +25,7 @@ class MatrixLanguage {
     public:
         MatrixLanguage(std::string language, std::string file_path);
         std::string print_table_1_row();
+        double closeness();
 };
 
 

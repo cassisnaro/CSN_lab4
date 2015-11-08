@@ -34,38 +34,13 @@ int main(int argc, char **argv){
     MatrixLanguage italianMatrix("Italian","./data/Italian_syntactic_dependency_network.txt");
     matrices.push_back(italianMatrix);
     MatrixLanguage turkishMatrix("Turkish","./data/Turkish_syntactic_dependency_network.txt");
-    matrices.push_back(turkishMatrix);
+    matrices.push_back(turkishMatrix);*/
 
 
+     MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
+    cerr<<"loaded\n";
+    cerr<<basqueMatrix.closeness()<<endl;
 
-
-    unsigned long Graphsize = 2048*2048;
-    MatrixAdjacency matrix=MatrixAdjacency::ErdosRenyi(16,0.5,4);
-    matrix.writeToCerr();
-    cerr<<"\n";
-    MatrixAdjacency newMatrix=matrix.randomizeEdges();
-    newMatrix.writeToCerr();*/
-    MatrixAdjacency matrix(5);
-    matrix.setExample();
-    matrix.writeToCerr();
-    std::cerr<<"\n";
-    std::cerr<<"distance 0 to 0 "<<matrix.bfs_distance(0,0)<<std::endl;
-    std::cerr<<"distance 0 to 1 "<<matrix.bfs_distance(0,1)<<std::endl;
-    std::cerr<<"distance 0 to 2 "<<matrix.bfs_distance(0,2)<<std::endl;
-    std::cerr<<"distance 0 to 3 "<<matrix.bfs_distance(0,3)<<std::endl;
-    std::cerr<<"distance 0 to 4 "<<matrix.bfs_distance(0,4)<<std::endl;
-
-
-    std::cerr<<"closeness node 0:"<<matrix.closeness_vertex(0)<<std::endl;
-    std::cerr<<"closeness node 0 opt.:"<<matrix.closeness_vertex_optimization(0,10)<<std::endl;
-    std::cerr<<"closeness node 1:"<<matrix.closeness_vertex(1)<<std::endl;
-    std::cerr<<"closeness node 1 opt.:"<<matrix.closeness_vertex_optimization(1,10)<<std::endl;
-    std::cerr<<"closeness node 2:"<<matrix.closeness_vertex(2)<<std::endl;
-    std::cerr<<"closeness node 2 opt.:"<<matrix.closeness_vertex_optimization(2,10)<<std::endl;
-    //matrix.randomizeEdges();
-
-    //matrix.computeDistances();
-    //matrix.writeDistancesToCerr();
 
 
 

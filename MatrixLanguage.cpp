@@ -68,3 +68,7 @@ std::string MatrixLanguage::print_table_1_row(){
     returnStringStream << _language<< "& "<<matrix->getN()<<"& "<<matrix->getNum_edges()<<"& "<<matrix->getNum_edges()/(double)matrix->getN()<<"& "<<2*(double)matrix->getNum_edges()/(matrix->getN()*(matrix->getN()+1))<<std::endl;
     return returnStringStream.str();
 }
+
+double MatrixLanguage::closeness(){
+    return matrix->closeness();
+}
