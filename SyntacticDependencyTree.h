@@ -12,22 +12,33 @@
 #include <locale>
 #include <map>
 #include <sstream>
+#include <random>
 #include "adjacencylist.h"
 
 class SyntacticDependencyTree {
     private:
         std::string _language;
         AdjacencyList adj_list;
+        int N;
+        int E;
+        vector<pair<int,int> >edges;
         std::map<std::wstring, unsigned long > conversion_map;
+
         SyntacticDependencyTree();
+        SyntacticDependencyTree(const SyntacticDependencyTree& tree);
+
 
     public:
         SyntacticDependencyTree(std::string language, std::string file_path);
-        void ErdosRenyiAuxFunction(unsigned long first_index, unsigned long next_first_index, double prob);
-        static SyntacticDependencyTree ErdosRenyi(unsigned long size, double p, const std::default_random_engine& unifr, int num_threads=1);
-        std::string print_table_1_row();
-        void printList();
+        static SyntacticDependencyTree * ErdosRenyi(int N, int E, std::default_random_engine &unifr);
+        static SyntacticDependencyTree * SwitchingModel(const SyntacticDependencyTree &original, int Q,
+                                                                          std::default_random_engine &unifr);
+        std::string print_table_1_row() const;
+        void printList() const;
         int getClosenessCentrality();
+        int getNNodes() const;
+        int getNEdges() const;
+        ~SyntacticDependencyTree();
 
 };
 

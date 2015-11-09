@@ -13,17 +13,19 @@
 #include <map>
 #include <sstream>
 #include "Matrix.h"
+#include "MatrixAdjacency.h"
 
 class MatrixLanguage {
     private:
         std::string _language;
-        Matrix matrix;
+        MatrixAdjacency* matrix;
         std::map<std::wstring, unsigned long > conversion_map;
         long convert_2d_index(unsigned long i, unsigned long j);
 
     public:
         MatrixLanguage(std::string language, std::string file_path);
         std::string print_table_1_row();
+        double closeness();
 };
 
 

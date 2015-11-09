@@ -3,7 +3,10 @@
 //
 
 #include <thread>
+#include <random>
 #include "Matrix.h"
+
+#define MIN(a,b) ((a)<(b)?(a):(b))
 
 long Matrix::convert_2d_index(unsigned long i, unsigned long j){
     if(i > j){
@@ -53,4 +56,106 @@ Matrix Matrix::ErdosRenyi(unsigned long size, double p, int numthreads){
         t[i].join();
     }
     return matrix;
+}
+
+Matrix Matrix::randomizeEdges() {
+    //Needs to be moved
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(0,N-1);
+
+    Matrix newMatrix = *this;
+
+    int steps=20;
+    for(int i=0; i<steps; i++){
+        int edge1node1 = uni(rng);
+        int edge1node2 = uni(rng);
+        int edge2node1 = uni(rng);
+        int edge2node2 = uni(rng);
+
+        std::cerr <<edge1node1<<"-"<<edge1node2<<";"<<edge2node1<<"-"<<edge2node2<<std::endl;
+
+        //We do not want to have selected randomly selected loop edges
+        if ((edge1node1!=edge1node2) && (edge2node1!=edge2node2)) {
+            //Checking for cases leading to loops
+            if ((edge1node1 == edge2node2) || (edge1node2 == edge2node1)) {
+
+            } else {
+                //Checking that both edges exist indeed
+                if (newMatrix[convert_2d_index(edge1node1, edge1node2)] &&
+                    newMatrix[convert_2d_index(edge2node1, edge2node2)]
+                    && !newMatrix[convert_2d_index(edge1node1, edge2node2)] &&
+                    !newMatrix[convert_2d_index(edge2node1, edge1node2)]) {
+                    newMatrix[convert_2d_index(edge1node1, edge1node2)] = false;
+                    newMatrix[convert_2d_index(edge2node1, edge2node2)] = false;
+                    newMatrix[convert_2d_index(edge1node1, edge2node2)] = true;
+                    newMatrix[convert_2d_index(edge2node1, edge1node2)] = true;
+                }
+            }
+        }
+        std::cerr << std::endl;
+        newMatrix.writeToCerr();
+    }
+    return newMatrix;
+
+}
+
+void Matrix::setExample() {
+    matrix.resize(10,false);
+    N=5;
+    matrix[convert_2d_index(0,2)]=true;
+    matrix[convert_2d_index(0,3)]=true;
+    matrix[convert_2d_index(2,4)]=true;
+    matrix[convert_2d_index(3,4)]=true;
+}
+
+void Matrix::writeToCerr() {
+    for(int i=0;i<N;i++){
+        for(int j=0; j<N; j++){
+            if (i==j) std::cerr << false << " ";
+            else std::cerr << matrix[convert_2d_index(i,j)] << " ";
+        }
+        std::cerr << std::endl;
+    }
+}
+
+void Matrix::writeDistancesToCerr() {
+    for(int i=0;i<N;i++){
+        for(int j=0; j<N; j++){
+           std::cerr << dist_matrix[i*N+j] << " ";
+        }
+        std::cerr << std::endl;
+    }
+}
+
+void Matrix::computeDistances() {
+    dist_matrix = (unsigned long *) calloc(sizeof(unsigned long), N*N);
+    for(int i=0;i<N;i++){
+        for(int j=0; j<N; j++){
+            if (i==j) {
+                dist_matrix[i*N+j] = 0;
+            }else {
+                if(matrix[convert_2d_index(i,j)]){
+                    dist_matrix[i*N+j] = 1;
+                }else{
+                    dist_matrix[i*N+j] = INTMAX_MAX;
+                }
+            }
+        }
+    }
+    writeDistancesToCerr();
+    std::cerr << std::endl;
+
+    for (int k = 0; k < N; k++) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                dist_matrix[i*N+j] = MIN(dist_matrix[i*N+j], dist_matrix[i*N+k] + dist_matrix[k*N+j]);
+            }
+        }
+    }
+}
+
+
+Matrix::~Matrix(){
+    free(dist_matrix);
 }

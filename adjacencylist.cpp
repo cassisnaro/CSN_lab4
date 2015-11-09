@@ -1,7 +1,13 @@
 #include "adjacencylist.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
+
+AdjacencyList::AdjacencyList()
+{
+    distance = 0;
+}
 
 void AdjacencyList::add(int id1, int id2)
 {
@@ -9,15 +15,29 @@ void AdjacencyList::add(int id1, int id2)
     adj_list[id2].push_back(id1);
 }
 
-AdjacencyList::AdjacencyList()
+bool AdjacencyList::contains(int id1, int id2) const
 {
-    distance = 0;
+    return find(adj_list[id1].begin(),adj_list[id1].end(),id2) != adj_list[id1].end();
 }
 
-void AdjacencyList::printList()
+void AdjacencyList::remove(int id1, int id2)
 {
-    for(int i = 0; i < N; i++){
-        list<int>::iterator it = adj_list[i].begin();
+    adj_list[id1].remove(id2);
+    adj_list[id2].remove(id1);
+}
+
+void AdjacencyList::resize(int N)
+{
+        adj_list.resize(N, list<int>());
+        if(distance != 0)
+            delete [] distance;
+        distance = new int [N];
+}
+
+void AdjacencyList::printList() const
+{
+    for(int i = 0; i < adj_list.size(); i++){
+        list<int>::const_iterator it = adj_list[i].begin();
         cout << i << ": ";
         while(it != adj_list[i].end()){
             cout << *it << " ";
@@ -27,11 +47,10 @@ void AdjacencyList::printList()
     }
 }
 
-int AdjacencyList::geodesicDistancesSum(int id)
+double AdjacencyList::geodesicDistancesSum(int id)
 {
-    int nVisited = 1; //id1 is visited (the node itself)
-    int sum = 0;
-    for(int i = 0; i < N; i++)
+    double sum = 0;
+    for(int i = 0; i < adj_list.size(); i++)
         distance[i] = -1;
     distance[id] = 0;
     list<int> q;
@@ -43,7 +62,7 @@ int AdjacencyList::geodesicDistancesSum(int id)
             if(distance[*it]==-1){
                 q.push_back(*it);
                 distance[*it]=distance[dest]+1;
-                sum+=distance[*it];
+                sum+= 1.0 / distance[*it];
             }
         }
     }

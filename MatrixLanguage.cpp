@@ -4,7 +4,7 @@
 
 #include "MatrixLanguage.h"
 
-MatrixLanguage::MatrixLanguage(std::string language, std::string file_path) {
+MatrixLanguage::MatrixLanguage(std::string language, std::string file_path){
     std::locale::global(std::locale(""));
     std::wifstream wf(file_path); // test.txt contains utf-8 text
     std::wstring readed_string_1, readed_string_2;
@@ -15,12 +15,11 @@ MatrixLanguage::MatrixLanguage(std::string language, std::string file_path) {
 
     wf >> N >> num_edges;
 
-    matrix.setN(N);
-    matrix.setNum_edges(num_edges);
+    matrix = new MatrixAdjacency(N);
+    matrix->setNum_edges(num_edges);
 
     size = (N-1)*N/2;
     std::cerr << language << " size set "<<size<<std::endl;
-    matrix.resize(size, false);
 
 
 
@@ -48,8 +47,7 @@ MatrixLanguage::MatrixLanguage(std::string language, std::string file_path) {
             id2 = conversion_map_it_2->second;
         }
         if (id1 != id2){
-            long index_lineal = convert_2d_index(id1, id2);
-            matrix[index_lineal] = true;
+            matrix->setIsEdge(id1, id2, true);
         }
     }
     std::cerr << "just here before table \n";
@@ -67,11 +65,10 @@ MatrixLanguage::MatrixLanguage(std::string language, std::string file_path) {
 std::string MatrixLanguage::print_table_1_row(){
     std::stringstream returnStringStream;
     //std::cerr << _language<< "& "<<N<<"& "<<num_edges<<"& "<<num_edges/(double)N<<"& "<<2*(double)num_edges/(N*(N+1));
-    returnStringStream << _language<< "& "<<matrix.getN()<<"& "<<matrix.getNum_edges()<<"& "<<matrix.getNum_edges()/(double)matrix.getN()<<"& "<<2*(double)matrix.getNum_edges()/(matrix.getN()*(matrix.getN()+1))<<std::endl;
+    returnStringStream << _language<< "& "<<matrix->getN()<<"& "<<matrix->getNum_edges()<<"& "<<matrix->getNum_edges()/(double)matrix->getN()<<"& "<<2*(double)matrix->getNum_edges()/(matrix->getN()*(matrix->getN()+1))<<std::endl;
     return returnStringStream.str();
 }
 
-
-long MatrixLanguage::convert_2d_index(unsigned long i, unsigned long j){
-    return matrix.convert_2d_index(i,j);
+double MatrixLanguage::closeness(){
+    return matrix->closeness();
 }
