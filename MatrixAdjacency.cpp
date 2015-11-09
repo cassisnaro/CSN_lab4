@@ -218,7 +218,7 @@ double MatrixAdjacency::closeness_vertex(ID_TYPE measure_node){
 double MatrixAdjacency::closeness(){
     double result;
     for(ID_TYPE id_node=0; id_node<N; id_node++){
-        result += closeness_vertex_optimization(id_node,10);
+        result += closeness_vertex_optimization(id_node,12000);
         if(id_node%100 ==0) std::cerr << id_node<<std::endl;
     }
     return 1/(double)(N)*result;
@@ -229,7 +229,7 @@ double MatrixAdjacency::closeness_vertex_optimization(ID_TYPE measure_node, int 
     std::unordered_set<ID_TYPE> nodes_at_previous_distance;
     nodes_at_previous_distance.insert(measure_node);
     double result=0;
-    for(int i=0; i<max_depth;i++){
+    for(int i=0; !nodes_at_previous_distance.empty();i++){
         std::unordered_set<ID_TYPE> nodes_at_next_distance;
         for(ID_TYPE node: nodes_at_previous_distance){
             if ( closed_nodes.find(node) == closed_nodes.end()){
