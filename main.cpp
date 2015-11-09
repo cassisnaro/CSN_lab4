@@ -2,14 +2,21 @@
 // Created by daniel on 29/10/15.
 //
 #include <iostream>
-#include "MatrixLanguage.h"
+#include "SyntacticDependencyTree.h"
 
 
 using namespace std;
 
 int main(int argc, char **argv){
 
-    srand(1234);
+    //srand(1234);
+    unsigned seed = 1234;
+    std::default_random_engine generator(seed);
+
+
+
+
+
     /*std::vector<MatrixLanguage> matrices;
     MatrixLanguage arabicMatrix("Arabic","./data/Arabic_syntactic_dependency_network.txt");
     matrices.push_back(arabicMatrix);
@@ -36,11 +43,11 @@ int main(int argc, char **argv){
     MatrixLanguage turkishMatrix("Turkish","./data/Turkish_syntactic_dependency_network.txt");
     matrices.push_back(turkishMatrix);*/
 
+    SyntacticDependencyTree basque("Basque","./data/Basque_syntactic_dependency_network.txt");
+    cout << "Closeness centrality: " << basque.getClosenessCentrality() << endl;
 
-
-
-    unsigned long Graphsize = 2048*2048;
-    Matrix::ErdosRenyi(Graphsize,0.5,4);
+    //unsigned long Graphsize = 2048*2048;
+    //Matrix::ErdosRenyi(Graphsize,0.5,4);
 
 
 
