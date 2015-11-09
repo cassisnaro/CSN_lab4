@@ -22,6 +22,9 @@ public:
     void add(int id1, int id2);
     bool contains(int id1, int id2) const;
     void remove(int id1, int id2);
+    void sortIncreasing(int N);
+    void sortDecreasing(int N);
+    int getDegree(int id);
     ~AdjacencyList();
 
 

@@ -75,6 +75,16 @@ int SyntacticDependencyTree::getNEdges() const
     return E;
 }
 
+void SyntacticDependencyTree::sortIncreasing()
+{
+    adj_list.sortIncreasing(N);
+}
+
+void SyntacticDependencyTree::sortDecreasing()
+{
+    adj_list.sortDecreasing(N);
+}
+
 SyntacticDependencyTree * SyntacticDependencyTree::ErdosRenyi(int N, int E, std::default_random_engine &unifr){
     std::uniform_int_distribution<int> unifintdist(0,N-1);
     SyntacticDependencyTree * tree = new SyntacticDependencyTree();
@@ -82,7 +92,8 @@ SyntacticDependencyTree * SyntacticDependencyTree::ErdosRenyi(int N, int E, std:
     tree->E = E;
     tree->adj_list.resize(N);
     set<pair<int,int> > added;
-    for(int i = 0; i < E; i++){
+    int i = 0;
+    while(i < E){
         int id1 = unifintdist(unifr);
         int id2 = unifintdist(unifr);
         if(id1 != id2){
@@ -93,6 +104,7 @@ SyntacticDependencyTree * SyntacticDependencyTree::ErdosRenyi(int N, int E, std:
             if(added.find(p)==added.end()){
                 added.insert(p);
                 tree->adj_list.add(id1,id2);
+                i++;
             }
         }
     }
@@ -140,14 +152,26 @@ void SyntacticDependencyTree::printList() const
     adj_list.printList();
 }
 
-int SyntacticDependencyTree::getClosenessCentrality()
+double SyntacticDependencyTree::getClosenessCentrality()
 {
     double C = 0;
     for(int i = 0; i < N; i++){
-        double Ci = adj_list.geodesicDistancesSum(i) * (N-1);
+        double Ci = adj_list.geodesicDistancesSum(i) / (N-1);
         C += Ci;
     }
     return C/N;
+}
+
+bool SyntacticDependencyTree::closenessCentralityGEQ(double C)
+{
+    double Cnh = 0;
+    for(int i = 0; i < N; i++){
+        double Ci = adj_list.geodesicDistancesSum(i) / (N-1);
+        Cnh += Ci;
+        if(Cnh/N >= C) return true;
+        if(Cnh/N + 1 - (i+1)/N < C) return false;
+    }
+    return Cnh/N >= C;
 }
 
 SyntacticDependencyTree::~SyntacticDependencyTree()

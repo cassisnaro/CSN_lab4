@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <random>
+#include <cmath>
 #include "SyntacticDependencyTree.h"
 
 
@@ -28,15 +29,46 @@ int main(int argc, char **argv){
     trees.push_back(new SyntacticDependencyTree("Turkish","./data/Turkish_syntactic_dependency_network.txt"));
     */
 
-    double c;
+
+    /*double C;
+    bool b;
+    cerr.precision(15);
     SyntacticDependencyTree basque("Basque","./data/Basque_syntactic_dependency_network.txt");
-    //cout << "Basque closeness centrality: " << basque.getClosenessCentrality() << endl;
-    //SyntacticDependencyTree * ER = SyntacticDependencyTree::ErdosRenyi(basque.getNNodes(),basque.getNEdges(),generator);
-    //c = ER->getClosenessCentrality();
-    cerr << "ER closeness centrality: " << c << endl;
-    SyntacticDependencyTree * SM = SyntacticDependencyTree::SwitchingModel(basque,1,generator);
-    c = SM->getClosenessCentrality();
-    cerr << "SM closeness centrality: " << c << endl;
+    cerr << "Basque generated" << endl;
+    C = basque.getClosenessCentrality();
+    cerr << "Basque closeness centrality: " << C << endl;
+
+    SyntacticDependencyTree * ER = SyntacticDependencyTree::ErdosRenyi(basque.getNNodes(),basque.getNEdges(),generator);
+    cerr << "ER generated" << endl;
+    b = ER->closenessCentralityGEQ(C);
+    cerr << "Cer " << (b ? ">=" : "<") << " C" << endl;
+
+    cerr << "Q=" << log(basque.getNEdges()) << endl;
+    SyntacticDependencyTree * SM = SyntacticDependencyTree::SwitchingModel(basque,log(basque.getNEdges()),generator);
+    cerr << "SM generated" << endl;
+    b = SM->closenessCentralityGEQ(C);
+    cerr << "Csm " << (b ? ">=" : "<") << " C" << endl;
+    */
+
+    SyntacticDependencyTree test("Test","./test.txt");
+    test.printList();
+    cout << endl << "----SORT INC----" << endl;
+    test.sortIncreasing();
+    test.printList();
+    cout << endl << "----SORT DEC----" << endl;
+    test.sortDecreasing();
+    test.printList();
+
+    SyntacticDependencyTree czech("Czech", "./data/Czech_syntactic_dependency_network.txt");
+    cout << "Czech generated" << endl;
+    czech.sortDecreasing();
+    cout << "Czech sorted" << endl;
+
+
+
+
+
+
 
     //MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
     //cerr<<"loaded\n";

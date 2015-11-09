@@ -35,9 +35,12 @@ class SyntacticDependencyTree {
                                                                           std::default_random_engine &unifr);
         std::string print_table_1_row() const;
         void printList() const;
-        int getClosenessCentrality();
+        double getClosenessCentrality();
+        bool closenessCentralityGEQ(double C);
         int getNNodes() const;
         int getNEdges() const;
+        void sortIncreasing();
+        void sortDecreasing();
         ~SyntacticDependencyTree();
 
 };
