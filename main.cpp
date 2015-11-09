@@ -37,9 +37,10 @@ int main(int argc, char **argv){
     matrices.push_back(turkishMatrix);*/
 
 
-     MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
+     MatrixLanguage matrixLanguage("Hungarian","./data/Hungarian_syntactic_dependency_network.txt");
     cerr<<"loaded\n";
-    cerr<<basqueMatrix.closeness()<<endl;
+    cerr.precision(15);
+    cerr<< fixed << matrixLanguage.closeness()<<endl;
 
 
 
