@@ -3,6 +3,7 @@
 //
 
 #include <set>
+#include <unordered_set>
 #include "SyntacticDependencyTree.h"
 
 SyntacticDependencyTree::SyntacticDependencyTree()
@@ -155,18 +156,41 @@ void SyntacticDependencyTree::printList() const
 double SyntacticDependencyTree::getClosenessCentrality()
 {
     double C = 0;
+    int distance[N];
     for(int i = 0; i < N; i++){
-        double Ci = adj_list.geodesicDistancesSum(i) / (N-1);
+        double Ci = adj_list.geodesicDistancesSum(i,distance) / (N-1);
         C += Ci;
     }
     return C/N;
 }
 
+double SyntacticDependencyTree::getClosenessApproximate(std::default_random_engine &unifr)
+{
+    double C = 0;
+    int count=0;
+    int distance[N];
+    std::uniform_int_distribution<int> unifintdist(0,N-1);
+    std::unordered_set<int> visited_nodes;
+    while(count < N/10){
+        int node = unifintdist(unifr);
+        if (visited_nodes.find(node)==visited_nodes.end()){
+            visited_nodes.insert(node);
+            double Ci = adj_list.geodesicDistancesSum(node,distance) / (N-1);
+            C += Ci;
+            count++;
+            if(count%100==0) cerr << count << "/" << N/10 << endl;
+        }
+
+    }
+    return C/count;
+}
+
 bool SyntacticDependencyTree::closenessCentralityGEQ(double C)
 {
     double Cnh = 0;
+    int distance[N];
     for(int i = 0; i < N; i++){
-        double Ci = adj_list.geodesicDistancesSum(i) / (N-1);
+        double Ci = adj_list.geodesicDistancesSum(i,distance) / (N-1);
         Cnh += Ci;
         if(Cnh/N >= C) return true;
         if(Cnh/N + 1 - (i+1)/N < C) return false;

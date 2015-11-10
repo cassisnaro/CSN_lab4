@@ -36,6 +36,7 @@ class SyntacticDependencyTree {
         std::string print_table_1_row() const;
         void printList() const;
         double getClosenessCentrality();
+        double getClosenessApproximate(std::default_random_engine &unifr);
         bool closenessCentralityGEQ(double C);
         int getNNodes() const;
         int getNEdges() const;

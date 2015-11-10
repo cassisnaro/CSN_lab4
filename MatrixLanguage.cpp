@@ -20,6 +20,7 @@ MatrixLanguage::MatrixLanguage(std::string language, std::string file_path){
 
     size = (N-1)*N/2;
     std::cerr << language << " size set "<<size<<std::endl;
+    std::cerr << "vertexes " << N << " num_edges "<<num_edges<<std::endl;
 
 
 
@@ -71,4 +72,8 @@ std::string MatrixLanguage::print_table_1_row(){
 
 double MatrixLanguage::closeness(){
     return matrix->closeness();
+}
+
+void MatrixLanguage::computeDistances() {
+    matrix->computeDistances();
 }

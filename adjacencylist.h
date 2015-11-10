@@ -11,14 +11,15 @@ class AdjacencyList
 
 private:
     vector<list<int> > adj_list;
-    int * distance;
+
 
 public:
 
     AdjacencyList();
+    AdjacencyList(const AdjacencyList&);
     void resize(int N);
     void printList() const;
-    double geodesicDistancesSum(int id);
+    double geodesicDistancesSum(int id, int * distance);
     void add(int id1, int id2);
     bool contains(int id1, int id2) const;
     void remove(int id1, int id2);

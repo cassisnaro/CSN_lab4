@@ -6,7 +6,10 @@ using namespace std;
 
 AdjacencyList::AdjacencyList()
 {
-    distance = 0;
+}
+
+AdjacencyList::AdjacencyList(const AdjacencyList& adjacencyListToCopy){
+    adj_list = adjacencyListToCopy.adj_list;
 }
 
 void AdjacencyList::add(int id1, int id2)
@@ -108,9 +111,6 @@ int AdjacencyList::getDegree(int id)
 void AdjacencyList::resize(int N)
 {
         adj_list.resize(N, list<int>());
-        if(distance != 0)
-            delete [] distance;
-        distance = new int [N];
 }
 
 void AdjacencyList::printList() const
@@ -126,7 +126,7 @@ void AdjacencyList::printList() const
     }
 }
 
-double AdjacencyList::geodesicDistancesSum(int id)
+double AdjacencyList::geodesicDistancesSum(int id, int * distance)
 {
     double sum = 0;
     for(int i = 0; i < adj_list.size(); i++)
@@ -150,5 +150,4 @@ double AdjacencyList::geodesicDistancesSum(int id)
 
 AdjacencyList::~AdjacencyList()
 {
-    delete [] distance;
 }

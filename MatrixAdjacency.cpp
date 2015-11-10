@@ -34,9 +34,11 @@ void MatrixAdjacency::setIsEdge(ID_TYPE i, ID_TYPE j,bool isEdge){
     if (isEdge) {
         matrix[i].insert(j);
         matrix[j].insert(i);
+        num_edges++;
     } else{
         matrix[i].erase(j);
         matrix[j].erase(i);
+        num_edges--;
     }
 }
 
@@ -79,7 +81,8 @@ void MatrixAdjacency::writeDistancesToCerr() {
 }
 
 void MatrixAdjacency::computeDistances() {
-    dist_matrix = (unsigned long*) calloc(sizeof(unsigned long), N*N);
+    dist_matrix = (int*) calloc(sizeof(int), N*N);
+    if (dist_matrix== nullptr) std::cerr<<"shit\n";
     for(int i=0;i<N;i++){
         for(int j=0; j<N; j++){
             if (i==j) {
@@ -88,21 +91,30 @@ void MatrixAdjacency::computeDistances() {
                 if(getIsEdge(i,j)){
                     dist_matrix[i*N+j] = 1;
                 }else{
-                    dist_matrix[i*N+j] = INTMAX_MAX;
+                    dist_matrix[i*N+j] = N*N*N;
                 }
             }
         }
     }
-    writeDistancesToCerr();
-    std::cerr << std::endl;
+    //writeDistancesToCerr();
+    std::cerr << "initizialized"<<std::endl;
 
     for (int k = 0; k < N; k++) {
+        if(k%100==0) std::cerr<<k<<std::endl;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 dist_matrix[i*N+j] = MIN(dist_matrix[i*N+j], dist_matrix[i*N+k] + dist_matrix[k*N+j]);
             }
         }
     }
+}
+
+ID_TYPE MatrixAdjacency::getNum_edges() const {
+    return num_edges;
+}
+
+void MatrixAdjacency::setNum_edges(ID_TYPE val) {
+    num_edges = val;
 }
 
 
@@ -123,7 +135,9 @@ MatrixAdjacency MatrixAdjacency::ErdosRenyi(ID_TYPE num_vertices, double p, int 
     std::thread t[numthreads];
     MatrixAdjacency matrix(num_vertices);
 
-    if (numthreads > 16) numthreads=16;
+    std::cerr << "erdos renyi with num_vertices"<<num_vertices<<" p="<<p<<std::endl;
+
+    /*if (numthreads > 16) numthreads=16;
     unsigned long first_index_thread[16];
     for( int i=0; i<numthreads-1; i++){
         first_index_thread[i]=(unsigned long)i*num_vertices/(unsigned long)numthreads;
@@ -135,7 +149,8 @@ MatrixAdjacency MatrixAdjacency::ErdosRenyi(ID_TYPE num_vertices, double p, int 
     t[numthreads-1]=std::thread(ErdosRenyiAuxStarterFunction,&matrix, first_index_thread[numthreads-1], num_vertices,p);
     for( int i=0; i<numthreads; i++){
         t[i].join();
-    }
+    }*/
+    ErdosRenyiAuxStarterFunction(&matrix, 0, num_vertices,p);
     return matrix;
 }
 
@@ -222,6 +237,21 @@ double MatrixAdjacency::closeness(){
         if(id_node%100 ==0) std::cerr << id_node<<std::endl;
     }
     return 1/(double)(N)*result;
+}
+
+bool MatrixAdjacency::closeness_greater_then(double baseline){
+    double result;
+    for(ID_TYPE id_node=0; id_node<N; id_node++){
+        result += closeness_vertex_optimization(id_node,12000);
+        if(id_node%100 ==0) std::cerr << id_node<<std::endl;
+        double min_result = 1/(double)N*result;
+        double max_result = 1/(double)N*result + 1 - id_node/N;
+        std::cerr << "min: "<<min_result<<" max: "<<max_result<<std::endl;
+        if( min_result > baseline) return true;
+        if( max_result < baseline) return true;
+
+    }
+    return (1/(double)(N)*result)>baseline;
 }
 
 double MatrixAdjacency::closeness_vertex_optimization(ID_TYPE measure_node, int max_depth){

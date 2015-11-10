@@ -4,12 +4,13 @@
 #include <iostream>
 #include <random>
 #include <cmath>
+#include <ctime>
 #include "SyntacticDependencyTree.h"
 
 
 using namespace std;
 
-int main(int argc, char **argv){
+int main(int argc, char *argv[]){
 
     //srand(1234);
     int seed = 1234;
@@ -29,85 +30,55 @@ int main(int argc, char **argv){
     trees.push_back(new SyntacticDependencyTree("Turkish","./data/Turkish_syntactic_dependency_network.txt"));
     */
 
+    string str_language = argv[1];
+    cout << str_language << endl;
+    string str_path = argv[2];
+    cout << str_path << endl;
+    string C_str = argv[3];
+    std::string::size_type sz;
 
-    /*double C;
+
     bool b;
-    cerr.precision(15);
-    SyntacticDependencyTree basque("Basque","./data/Basque_syntactic_dependency_network.txt");
-    cerr << "Basque generated" << endl;
-    C = basque.getClosenessCentrality();
-    cerr << "Basque closeness centrality: " << C << endl;
+    cout.precision(15);
+    SyntacticDependencyTree language(str_language,str_path);
+    cout << str_language<< " generated" << endl;
+    double C=stod(C_str);
 
-    SyntacticDependencyTree * ER = SyntacticDependencyTree::ErdosRenyi(basque.getNNodes(),basque.getNEdges(),generator);
-    cerr << "ER generated" << endl;
-    b = ER->closenessCentralityGEQ(C);
-    cerr << "Cer " << (b ? ">=" : "<") << " C" << endl;
-
-    cerr << "Q=" << log(basque.getNEdges()) << endl;
-    SyntacticDependencyTree * SM = SyntacticDependencyTree::SwitchingModel(basque,log(basque.getNEdges()),generator);
-    cerr << "SM generated" << endl;
-    b = SM->closenessCentralityGEQ(C);
-    cerr << "Csm " << (b ? ">=" : "<") << " C" << endl;
-    */
-
-    SyntacticDependencyTree test("Test","./test.txt");
-    test.printList();
-    cout << endl << "----SORT INC----" << endl;
-    test.sortIncreasing();
-    test.printList();
-    cout << endl << "----SORT DEC----" << endl;
-    test.sortDecreasing();
-    test.printList();
-
-    SyntacticDependencyTree czech("Czech", "./data/Czech_syntactic_dependency_network.txt");
-    cout << "Czech generated" << endl;
-    czech.sortDecreasing();
-    cout << "Czech sorted" << endl;
-
-
-
-
-
-
-
-    //MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
-    //cerr<<"loaded\n";
-    //cerr<<basqueMatrix.closeness()<<endl;
-
-
-    //srand(1234);
-    /*std::vector<MatrixLanguage> matrices;
-    MatrixLanguage arabicMatrix("Arabic","./data/Arabic_syntactic_dependency_network.txt");
-    matrices.push_back(arabicMatrix);
-    MatrixLanguage basqueMatrix("Basque","./data/Basque_syntactic_dependency_network.txt");
-    matrices.push_back(basqueMatrix);
-    MatrixLanguage catalanMatrix("Catalan","./data/Catalan_syntactic_dependency_network.txt");
-    matrices.push_back(catalanMatrix);
-    MatrixLanguage chineseMatrix("Chinese","./data/Chinese_syntactic_dependency_network.txt");
-    matrices.push_back(chineseMatrix);
-    try {
-        MatrixLanguage czechMatrix("Czech", "./data/Czech_syntactic_dependency_network.txt");
-        matrices.push_back(czechMatrix);
-    } catch (const std::length_error& le) {
-        std::cerr << "Length error: " << le.what() << '\n';
+    SyntacticDependencyTree * ER = SyntacticDependencyTree::ErdosRenyi(language.getNNodes(),language.getNEdges(),generator);
+    clock_t begin_time = clock();
+    /*for(int i=0; i<4; i++){
+        ER->closenessCentralityGEQ(C);
     }
-    MatrixLanguage englishMatrix("English","./data/English_syntactic_dependency_network.txt");
-    matrices.push_back(englishMatrix);
-    MatrixLanguage greekMatrix("Greek","./data/Greek_syntactic_dependency_network.txt");
-    matrices.push_back(greekMatrix);
-    MatrixLanguage hungarianMatrix("Hungarian","./data/Hungarian_syntactic_dependency_network.txt");
-    matrices.push_back(hungarianMatrix);
-    MatrixLanguage italianMatrix("Italian","./data/Italian_syntactic_dependency_network.txt");
-    matrices.push_back(italianMatrix);
-    MatrixLanguage turkishMatrix("Turkish","./data/Turkish_syntactic_dependency_network.txt");
-    matrices.push_back(turkishMatrix);*/
+    cout << float(clock()-begin_time)/ CLOCKS_PER_SEC;
+    ER->sortDecreasing();
+    begin_time = clock();
+    for(int i=0; i<4; i++){
+        ER->closenessCentralityGEQ(C);
+    }
+    cout << float(clock()-begin_time)/ CLOCKS_PER_SEC;*/
+    ER->sortIncreasing();
+    begin_time = clock();
+    //for(int i=0; i<4; i++){
+        ER->closenessCentralityGEQ(C);
+    //}
+    cout << float(clock()-begin_time)/ CLOCKS_PER_SEC;
+    /*for(int i=0; i<20; i++){
+        SyntacticDependencyTree * ER = SyntacticDependencyTree::ErdosRenyi(language.getNNodes(),language.getNEdges(),generator);
+        ER->sortDecreasing();
+        b = ER->closenessCentralityGEQ(C);
+        cout << "Cer " << (b ? ">=" : "<") << " C" << endl;
+        delete ER;
+    }
 
 
-    /*MatrixLanguage matrixLanguage("Hungarian","./data/Hungarian_syntactic_dependency_network.txt");
-    cerr<<"loaded\n";
-    cerr.precision(15);
-    cerr<< fixed << matrixLanguage.closeness()<<endl;*/
-
+    for(int i=0; i<20; i++) {
+        SyntacticDependencyTree *SM = SyntacticDependencyTree::SwitchingModel(language, log(language.getNEdges()),
+                                                                              generator);
+        SM->sortDecreasing();
+        //b = SM->closenessCentralityGEQ(C);
+        //cout << "Csm " << (b ? ">=" : "<") << " C" << endl;
+        delete SM;
+    }*/
 
     return 0;
 }

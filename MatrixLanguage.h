@@ -26,6 +26,13 @@ class MatrixLanguage {
         MatrixLanguage(std::string language, std::string file_path);
         std::string print_table_1_row();
         double closeness();
+        void computeDistances();
+        int getN(){
+            matrix->getN();
+        }
+        int getNumEdges(){
+            matrix->getNum_edges();
+        }
 };
 
 

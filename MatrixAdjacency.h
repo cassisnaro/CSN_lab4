@@ -14,6 +14,7 @@
 #include <map>
 #include <sstream>
 #include <unordered_set>
+#include <mutex>
 
 #define ID_TYPE int
 
@@ -26,14 +27,8 @@ public:
     void setN(ID_TYPE N) {
         MatrixAdjacency::N = N;
     }
-
-    ID_TYPE getNum_edges() const {
-        return num_edges;
-    }
-
-    void setNum_edges(ID_TYPE num_edges) {
-        MatrixAdjacency::num_edges = num_edges;
-    }
+    ID_TYPE getNum_edges() const;
+    void setNum_edges(ID_TYPE val);
     MatrixAdjacency(ID_TYPE num_nodes);
     bool getIsEdge(ID_TYPE i, ID_TYPE j);
     void setIsEdge(ID_TYPE i, ID_TYPE j,bool isEdge);
@@ -41,7 +36,8 @@ public:
 private:
     ID_TYPE N;
     ID_TYPE num_edges;
-    unsigned long* dist_matrix = nullptr;
+    //std::mutex num_edges_mutex;
+    int* dist_matrix = nullptr;
 
 private:
     std::vector<std::unordered_set<ID_TYPE> > matrix;
@@ -57,6 +53,7 @@ public:
     unsigned long bfs_distance(ID_TYPE start, ID_TYPE goal);
     ~MatrixAdjacency();
     double closeness();
+    bool closeness_greater_then(double baseline);
     double closeness_vertex(ID_TYPE);
     double closeness_vertex_optimization(ID_TYPE, int max_depth);
 

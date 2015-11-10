@@ -1,10 +1,10 @@
-Basque 0.269719425425328
-Turkish 0.360333527294451
-Italian 0.327820120135864
-Czech 0.305948201747303
-Catalan 0.341010236465873
-Arabic 0.326458025537964
-Chinese 0.326123380880794
-Greek 0.314717397202751
-English 0.343509448238309
-Hungarian 0.288346438018935
+Basque ./data/Basque_syntactic_dependency_network.txt 0,269719425425328
+Turkish ./data/Turkish_syntactic_dependency_network.txt 0,360333527294451
+Italian ./data/Italian_syntactic_dependency_network.txt 0,327820120135864
+Czech ./data/Czech_syntactic_dependency_network.txt 0,305948201747303
+Catalan ./data/Catalan_syntactic_dependency_network.txt 0,341010236465873
+Arabic ./data/Arabic_syntactic_dependency_network.txt 0,326458025537964
+Chinese ./data/Chinese_syntactic_dependency_network.txt 0,326123380880794
+Greek ./data/Czech_syntactic_dependency_network.txt 0,314717397202751
+English ./data/English_syntactic_dependency_network.txt 0,343509448238309
+Hungarian ./data/Hungarian_syntactic_dependency_network.txt 0,288346438018935
