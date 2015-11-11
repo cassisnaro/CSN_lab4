@@ -116,6 +116,7 @@ SyntacticDependencyTree * SyntacticDependencyTree::SwitchingModel(const Syntacti
             int Q, std::default_random_engine &unifr){
 
     std::uniform_int_distribution<int> unifintdist(0,original.getNEdges()-1);
+    std::uniform_int_distribution<int> booldist(0,1);
     SyntacticDependencyTree * tree = new SyntacticDependencyTree(original);
     tree->edges = original.edges;
     for(int i = 0; i < Q*tree->getNEdges(); i++){
@@ -124,7 +125,21 @@ SyntacticDependencyTree * SyntacticDependencyTree::SwitchingModel(const Syntacti
         if(e1idx != e2idx){
             pair<int,int> e1 = tree->edges[e1idx];
             pair<int,int> e2 = tree->edges[e2idx];
-            int u = e1.first, v = e1.second, s = e2.first, t = e2.second;
+            int u,v,s,t;
+            if(booldist(unifr)==1){
+                u = e1.first;
+                v = e1.second;
+            } else{
+                u = e1.second;
+                v = e1.first;
+            }
+            if(booldist(unifr)==1){
+                s = e2.first;
+                t = e2.second;
+            } else{
+                s = e2.second;
+                t = e2.first;
+            }
 
             if(u!= t && s != v){ //Invalid case, form a loop
                 if(u != s && v != t){ //Valid, but don't alter the resulting graph
@@ -178,7 +193,7 @@ double SyntacticDependencyTree::getClosenessApproximate(std::default_random_engi
             double Ci = adj_list.geodesicDistancesSum(node,distance) / (N-1);
             C += Ci;
             count++;
-            if(count%100==0) cerr << count << "/" << N/10 << endl;
+            //if(count%100==0) cerr << count << "/" << N/10 << endl;
         }
 
     }
