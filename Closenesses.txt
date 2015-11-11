@@ -5,6 +5,6 @@ Czech ./data/Czech_syntactic_dependency_network.txt 0,305948201747303
 Catalan ./data/Catalan_syntactic_dependency_network.txt 0,341010236465873
 Arabic ./data/Arabic_syntactic_dependency_network.txt 0,326458025537964
 Chinese ./data/Chinese_syntactic_dependency_network.txt 0,326123380880794
-Greek ./data/Czech_syntactic_dependency_network.txt 0,314717397202751
+Greek ./data/Greek_syntactic_dependency_network.txt 0,314717397202751
 English ./data/English_syntactic_dependency_network.txt 0,343509448238309
 Hungarian ./data/Hungarian_syntactic_dependency_network.txt 0,288346438018935
